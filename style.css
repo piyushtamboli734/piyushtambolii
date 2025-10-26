@@ -90,12 +90,19 @@ a{
 }
 
 .home-info h2 span {
-    position: relative;
-    display: inline-block;
-    color: transparent;
-    -webkit-text-stroke: .7px #7cf03d;
-    animation: display-text 16s linear infinite;
-    animation-delay: calc(-4s * var(--i));
+    display: none;                 /* hide by default */
+    color: #7cf03d;                /* visible fill color when active */
+    -webkit-text-stroke: 0;        /* don't use stroke for visible text */
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity .4s ease, transform .4s ease;
+}
+
+.home-info h2 span.active {
+    display: inline-block;         /* show the active span */
+    opacity: 1;
+    transform: translateY(0);
 }
 
 @keyframes display-text {
@@ -106,14 +113,9 @@ a{
 }
 
 .home-info h2 span::before{
-    content: attr(data-text);
-    position: absolute;
-    width: 0;
-    border-right: 2px solid #7cf03d;
-    color: #7cf03d;
-    white-space: nowrap;
-    overflow: hidden;
-    animation: fill-text 4s linear infinite;
+    /* removed complex pseudo-element animation to avoid conflicts
+       We keep this pseudo selector empty so it doesn't overlay the visible text. */
+    content: '';
 }
 
 @keyframes fill-text {

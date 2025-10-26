@@ -172,15 +172,13 @@
         
         function updateActiveText() {
             textSpans.forEach((span, index) => {
-                if (index === currentTextIndex) {
-                    span.style.display = 'inline-block';
-                } else {
-                    span.style.display = 'none';
-                }
+                span.classList.toggle('active', index === currentTextIndex);
             });
             currentTextIndex = (currentTextIndex + 1) % textSpans.length;
         }
 
+        // initialize and start cycling
+        updateActiveText();
         setInterval(updateActiveText, 4000);
 
         // Add download resume functionality
