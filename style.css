@@ -608,4 +608,57 @@ section::before {
     }
 }
 
+        /* Custom CSS for a few things Tailwind doesn't easily handle */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1f242d; /* Use dark background */
+            color: #ffffff;
+        }
+
+        /* Styling for the animated text spans */
+        .home-info h2 span {
+            display: none;
+            color: #7cf03d;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateY(6px);
+            transition: opacity .4s ease, transform .4s ease;
+        }
+
+        .home-info h2 span.active {
+            display: inline-block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* NEW Scroll-Reveal Styles */
+        .fade-in-element {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        /* Class to apply when element is intersecting */
+        .is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Hide scrollbar but allow scrolling */
+        ::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+
+        /* --- Mobile Menu Slide --- */
+        #mobile-menu {
+            max-height: 0;
+            transition: max-height 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+            overflow: hidden;
+        }
+
+        #mobile-menu.menu-open {
+            max-height: 100vh; /* Will slide down to content height */
+        }
+        /* --- End Mobile Menu Slide --- */
 

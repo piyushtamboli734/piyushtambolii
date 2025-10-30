@@ -1,228 +1,837 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PortFolio Website</title>
+    <title>Piyush Tamboli - Salesforce Developer</title>
+    <!-- Add Google Font Import for Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="/style.css"> -->
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Boxicons for icons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="style.css">
+    <!-- Load Devicon for skill logos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+    <!-- Configure Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        // Use Inter as the default font
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        // Define custom colors based on original site
+                        brand: {
+                            'primary': '#7cf03d', // Bright green
+                            'secondary': '#5ac72c', // Darker green
+                            'dark': '#1f242d', // Dark background
+                            'light': '#b1b1b1', // Light text
+                        }
+                    },
+                    // Define keyframe animations
+                    keyframes: {
+                        'rotate-border': {
+                            '0%': { transform: 'rotate(0deg)' },
+                            '100%': { transform: 'rotate(360deg)' },
+                        },
+                        'pulse-slow': {
+                            '0%, 100%': { opacity: '1', transform: 'scale(1)' },
+                            '50%': { opacity: '.9', transform: 'scale(1.05)' },
+                        }
+                    },
+                    // Assign animations
+                    animation: {
+                        'rotate-border': 'rotate-border 10s linear infinite',
+                        'pulse-slow': 'pulse-slow 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom CSS for a few things Tailwind doesn't easily handle */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1f242d; /* Use dark background */
+            color: #ffffff;
+        }
+
+        /* Styling for the animated text spans */
+        .home-info h2 span {
+            display: none;
+            color: #7cf03d;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateY(6px);
+            transition: opacity .4s ease, transform .4s ease;
+        }
+
+        .home-info h2 span.active {
+            display: inline-block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* NEW Scroll-Reveal Styles */
+        .fade-in-element {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        /* Class to apply when element is intersecting */
+        .is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Hide scrollbar but allow scrolling */
+        ::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+
+        /* --- Mobile Menu Slide --- */
+        #mobile-menu {
+            max-height: 0;
+            transition: max-height 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+            overflow: hidden;
+        }
+
+        #mobile-menu.menu-open {
+            max-height: 100vh; /* Will slide down to content height */
+        }
+        /* --- End Mobile Menu Slide --- */
+    </style>
 </head>
 
-<body>
+<body class="bg-brand-dark text-white">
 
-    <nav class="nav-bar">
-        <a href="#" class="logo">Portfolio</a>
-        <div class="menu-icon">
-            <i class='bx bx-menu'></i>
+    <!-- 
+      Header / Navbar 
+      - `sticky` and `z-50` keep it on top.
+      - `transition-colors` for smooth background change on scroll.
+      - Mobile-first: hamburger menu (`md:hidden`).
+      - Desktop: full nav (`hidden md:flex`).
+    -->
+    <nav id="navbar" class="fixed top-0 left-0 w-full p-5 md:px-10 py-4 z-50 transition-all duration-300">
+        <div class="container mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#home" class="text-3xl font-bold text-white transition-colors hover:text-brand-primary">
+                Portfolio
+            </a>
+
+            <!-- Mobile Menu Button (Hamburger) -->
+            <button id="menu-btn" class="md:hidden text-3xl text-white z-50">
+                <i class='bx bx-menu'></i>
+            </button>
+
+            <!-- Desktop Navigation Links -->
+            <ul class="hidden md:flex space-x-8">
+                <li><a href="#home" class="nav-link text-lg font-medium transition-colors hover:text-brand-primary" data-section="home">Home</a></li>
+                <li><a href="#about" class="nav-link text-lg font-medium transition-colors hover:text-brand-primary" data-section="about">About</a></li>
+                <li><a href="#experience" class="nav-link text-lg font-medium transition-colors hover:text-brand-primary" data-section="experience">Journey</a></li>
+                <li><a href="#skills" class="nav-link text-lg font-medium transition-colors hover:text-brand-primary" data-section="skills">Skills</a></li>
+                <li><a href="#projects" class="nav-link text-lg font-medium transition-colors hover:text-brand-primary" data-section="projects">Projects</a></li>
+                <li><a href="#contact" class="nav-link text-lg font-medium transition-colors hover:text-brand-primary" data-section="contact">Contact</a></li>
+            </ul>
         </div>
-        <ul class="nav-links">
-            <li class="active"><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+
+        <!-- 
+          Mobile Menu (Dropdown)
+        -->
+        <div id="mobile-menu" class="md:hidden fixed top-0 left-0 right-0 bg-brand-dark/95 backdrop-blur-lg z-40">
+            <ul class="flex flex-col space-y-8 text-center pt-24 pb-8"> <!-- pt-24 to clear nav, pb-8 for bottom space -->
+                <li><a href="#home" class="mobile-link text-3xl font-medium" data-section="home">Home</a></li>
+                <li><a href="#about" class="mobile-link text-3xl font-medium" data-section="about">About</a></li>
+                <li><a href="#experience" class="mobile-link text-3xl font-medium" data-section="experience">Journey</a></li>
+                <li><a href="#skills" class="mobile-link text-3xl font-medium" data-section="skills">Skills</a></li>
+                <li><a href="#projects" class="mobile-link text-3xl font-medium" data-section="projects">Projects</a></li>
+                <li><a href="#contact" class="mobile-link text-3xl font-medium" data-section="contact">Contact</a></li>
+            </ul>
+        </div>
     </nav>
-    <div class="bars-animation">
-        <div class="bar" style="--i:6;"></div>
-        <div class="bar" style="--i:5;"></div>
-        <div class="bar" style="--i:4;"></div>
-        <div class="bar" style="--i:3;"></div>
-        <div class="bar" style="--i:2;"></div>
-        <div class="bar" style="--i:1;"></div>
-    </div>
-    <section class="home">
-        <div class="home-info">
-            <h1>Piyush Tamboli</h1>
-            <h2>I'm a
-                <span style="--i:4;" data-text="Java Developer">Java Developer</span>
-                <span style="--i:3;" data-text="Backend">Backend</span>
-                <span style="--i:2;" data-text="Frontend">Frontend</span>
-                <span style="--i:1;" data-text="Full Stack">Full Stack</span>
+
+    <!-- 
+      Home Section 
+    -->
+    <section id="home" class="min-h-screen flex items-center justify-center p-5 md:px-10 pt-24">
+        <div class="container mx-auto flex flex-col-reverse md:flex-row items-center justify-center md:justify-between gap-10 text-center md:text-left">
+            
+            <!-- Home Info -->
+            <div class="home-info max-w-2xl">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-white">
+                    Piyush Tamboli
+                </h1>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl mt-2 h-12">
+                    I'm a
+                    <!-- Spans for typing animation -->
+                    <span data-text="Salesforce Developer">Salesforce Developer 🧑‍💻</span>
+                    <span data-text="Salesforce Administrator">Salesforce Administrator</span>
+                    <span data-text="Java Developer">Java Developer</span>
+                    <span data-text="Full Stack Developer">Full Stack Developer</span>
+                </h2>
+                <p class="text-base md:text-lg text-brand-light my-6">
+                    A Salesforce Certified Administrator transitioning from Physics to tech. I build impactful CRM solutions and full-stack applications with expertise in Apex, LWC, Java, and Python.
+                </p>
+                
+                <!-- Buttons & Socials -->
+                <div class="btn-sci flex flex-col sm:flex-row items-center justify-center md:justify-start gap-5">
+                    <!-- CV Button -->
+                    <a href="#contact" class="btn px-6 py-3 bg-brand-primary text-brand-dark font-bold rounded-full text-lg transition-all duration-300 hover:bg-brand-secondary hover:shadow-lg hover:shadow-brand-primary/30 animate-pulse-slow">
+                        Hire Me
+                    </a>
+                    
+                    <!-- Social Icons -->
+                    <div class="sci flex gap-4">
+                        <a href="#" target="_blank" class="w-12 h-12 flex items-center justify-center text-2xl border-2 border-brand-primary text-brand-primary rounded-full transition-all duration-300 hover:bg-brand-primary hover:text-brand-dark">
+                            <i class='bx bxl-github'></i>
+                        </a>
+                        <a href="#" target="_blank" class="w-12 h-12 flex items-center justify-center text-2xl border-2 border-brand-primary text-brand-primary rounded-full transition-all duration-300 hover:bg-brand-primary hover:text-brand-dark">
+                            <i class='bx bxl-linkedin'></i>
+                        </a>
+                        <a href="#" target="_blank" class="w-12 h-12 flex items-center justify-center text-2xl border-2 border-brand-primary text-brand-primary rounded-full transition-all duration-300 hover:bg-brand-primary hover:text-brand-dark">
+                            <i class='bx bxl-instagram'></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Home Image -->
+            <div class="home-img">
+                <!-- Spinning Border Box -->
+                <div class="img-box relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full flex justify-center items-center overflow-hidden p-1">
+                    <!-- Conic gradient for border animation -->
+                    <div class="absolute inset-[-100%] animate-rotate-border" style="background: conic-gradient(transparent, transparent, transparent, #7cf03d);"></div>
+                    <div class="absolute inset-[-100%] animate-rotate-border" style="animation-delay: -5s; background: conic-gradient(transparent, transparent, transparent, #5ac72c);"></div>
+                    
+                    <!-- Inner Image Container -->
+                    <div class="img-item relative w-full h-full bg-brand-dark rounded-full overflow-hidden z-10">
+                        <img src="/piyush-profile.jpg" 
+                             alt="Profile picture of Piyush Tamboli" 
+                             class="w-full h-full object-cover"
+                             onerror="this.src='https://placehold.co/400x400/1f242d/7cf03d?text=P.T.'">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 
+      About Section 
+    -->
+    <section id="about" class="min-h-screen flex items-center justify-center p-5 md:px-10 scroll-mt-20">
+        <div class="container mx-auto max-w-4xl text-center">
+            <h2 class="heading text-4xl md:text-5xl font-bold mb-10 fade-in-element">
+                About <span class="text-brand-primary">Me</span>
             </h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias culpa, recusandae ullam voluptas
-                autem ad sequi rerum a. Dolores animi excepturi maxime explicabo tempora! Quo mollitia deserunt
-                recusandae ipsa accusamus.
+            <p class="text-lg md:text-xl text-brand-light leading-relaxed fade-in-element" style="animation-delay: 0.2s;">
+                A BSc Physics graduate with a strong foundation in science, I transitioned to technology and am building a career in Salesforce Administration and Development. I hold a Salesforce Certified Administrator credential and possess hands-on experience with Salesforce Lightning, Salesforce.com, and Core Java.
+                <br><br>
+                My recent internship at Koshank allowed me to develop landing pages using HTML, CSS, JavaScript, and WordPress, which further enhanced my technical expertise. Currently pursuing a Java Full Stack Development program at QSpiders, I am focused on sharpening my programming and backend development skills.
+                <br><br>
+                I aim to leverage my Salesforce and development expertise to contribute to impactful CRM projects while continuing to grow professionally in the domain of cloud-based technologies.
             </p>
-            <div class="btn-sci">
-                <a href="#" class="btn">Download CV</a>
-                <div class="sci">
-                    <a href="#"><i class='bx bxl-github'></i></a>
-                    <a href="#"><i class='bx bxl-linkedin'></i></a>
-                    <a href="#"><i class='bx bxl-instagram'></i></a>
-                    <a href="#"><i class='bx bxl-youtube' ></i></a>
-                </div>
-            </div>
         </div>
+    </section>
+    
+    <!-- 
+      NEW "Journey" (Experience & Education) Section 
+    -->
+    <section id="experience" class="min-h-screen flex flex-col justify-center p-5 md:px-10 scroll-mt-20">
+        <div class="container mx-auto max-w-5xl">
+            <h2 class="heading text-4xl md:text-5xl font-bold text-center mb-16 fade-in-element">
+                My <span class="text-brand-primary">Journey</span>
+            </h2>
 
-        <div class="home-img">
-            <div class="img-box">
-                <div class="img-item">
-                    <!-- <img src="/projects/Porfolio Site/img1.png" alt=""> -->
-                    <img src="piyush-profile.jpg" alt="">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                
+                <!-- Experience Column -->
+                <div class="fade-in-element" style="animation-delay: 0.2s;">
+                    <h3 class="text-3xl font-bold mb-8 text-brand-primary flex items-center gap-3"><i class='bx bx-briefcase text-4xl'></i> Experience</h3>
+                    <div class="relative space-y-8">
+                        <!-- Timeline line -->
+                        <div class="absolute left-4 top-2 w-0.5 h-full bg-brand-primary/30"></div>
+                        
+                        <!-- Experience Item 1 -->
+                        <div class="relative pl-12">
+                            <div class="absolute left-0 top-2 w-8 h-8 bg-brand-primary rounded-full border-4 border-brand-dark flex items-center justify-center">
+                                <i class='bx bx-code-alt text-brand-dark text-lg'></i>
+                            </div>
+                            <h4 class="text-2xl font-semibold">Intern Developer</h4>
+                            <p class="text-lg text-brand-primary font-medium">Koshank</p>
+                            <p class="text-sm text-brand-light my-1">May 2025 - Aug 2025 · Pune, India</p>
+                            <p class="text-brand-light leading-relaxed">Creating Landing Pages Using Html, Css, JavaScript and WordPress development.</p>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Education Column -->
+                <div class="fade-in-element" style="animation-delay: 0.4s;">
+                    <h3 class="text-3xl font-bold mb-8 text-brand-primary flex items-center gap-3"><i class='bx bxs-graduation text-4xl'></i> Education</h3>
+                    <div class="relative space-y-8">
+                        <!-- Timeline line -->
+                        <div class="absolute left-4 top-2 w-0.5 h-full bg-brand-primary/30"></div>
+
+                        <!-- Education Item 1 -->
+                        <div class="relative pl-12">
+                            <div class="absolute left-0 top-2 w-8 h-8 bg-brand-primary rounded-full border-4 border-brand-dark flex items-center justify-center">
+                                <i class='bx bx-book-open text-brand-dark text-lg'></i>
+                            </div>
+                            <h4 class="text-2xl font-semibold">Java Full Stack Development</h4>
+                            <p class="text-lg text-brand-primary font-medium">QSpiders</p>
+                            <p class="text-sm text-brand-light my-1">July 2025 - Nov 2025 · Pune, India</p>
+                            <p class="text-brand-light leading-relaxed">Sharpening programming and backend development skills.</p>
+                        </div>
+                        
+                        <!-- Education Item 2 -->
+                        <div class="relative pl-12">
+                            <div class="absolute left-0 top-2 w-8 h-8 bg-brand-primary rounded-full border-4 border-brand-dark flex items-center justify-center">
+                                <i class='bx bx-atom text-brand-dark text-lg'></i>
+                            </div>
+                            <h4 class="text-2xl font-semibold">Bachelor's Degree, Physics</h4>
+                            <p class="text-lg text-brand-primary font-medium">RC Patel Arts, Commerce, Science College</p>
+                            <p class="text-sm text-brand-light my-1">Jul 2022 - Jun 2025 · Shirpur, India</p>
+                            <p class="text-brand-light leading-relaxed">Strong foundation in scientific principles and analytical thinking.</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
-    <section class="about" id="about">
-        <h2 class="heading">About <span>Me</span></h2>
-        <div class="about-content">
-            <p>I am a passionate developer with expertise in full-stack development. With a strong foundation in both frontend and backend technologies, I strive to create efficient and user-friendly applications.</p>
+    <!-- 
+      Skills Section 
+    -->
+    <section id="skills" class="min-h-screen flex flex-col justify-center p-5 md:px-10 scroll-mt-20">
+        <div class="container mx-auto">
+            <h2 class="heading text-4xl md:text-5xl font-bold text-center mb-16 fade-in-element">
+                My <span class="text-brand-primary">Skills</span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Skill Item 1: Salesforce Development (Priority) -->
+                <div class="skill-item bg-brand-dark border-2 border-brand-primary/50 rounded-lg p-8 fade-in-element">
+                    <h3 class="text-2xl font-bold mb-6 text-brand-primary text-center">Salesforce Development</h3>
+                    <div class="skill-list grid grid-cols-3 gap-6">
+                        <!-- Skill Logo Item -->
+                        <div class="flex flex-col items-center gap-2 transition-transform hover:scale-110">
+                            <i class="devicon-salesforce-plain text-5xl text-brand-primary"></i>
+                            <span class="font-medium text-sm text-center">Apex</span>
+                        </div>
+                        <!-- Skill Logo Item -->
+                        <div class="flex flex-col items-center gap-2 transition-transform hover:scale-110">
+                            <i class='bx bxs-data text-5xl text-brand-primary'></i>
+                            <span class="font-medium text-sm text-center">SOQL</span>
+                        </div>
+                        <!-- Skill Logo Item -->
+                        <div class="flex flex-col items-center gap-2 transition-transform hover:scale-110">
+                            <i class='bx bx-bolt-circle text-5xl text-brand-primary'></i>
+                            <span class="font-medium text-sm text-center">LWC</span>
+                        </div>
+                        <!-- Skill Logo Item -->
+                        <div class="flex flex-col items-center gap-2 transition-transform hover:scale-110">
+                            <i class='bx bxs-zap text-5xl text-brand-primary'></i>
+                            <span class="font-medium text-sm text-center">Apex Triggers</span>
+                        </div>
+                        <!-- Skill Logo Item -->
+                        <div class="flex flex-col items-center gap-2 transition-transform hover:scale-110">
+                            <i class='bx bx-code-block text-5xl text-brand-primary'></i>
+                            <span class="font-medium text-sm text-center">Visualforce (VF)</span>
+                        </div>
+                        <!-- Skill Logo Item -->
+                        <div class="flex flex-col items-center gap-2 transition-transform hover:scale-110">
+                            <i class='bx bxs-cog text-5xl text-brand-primary'></i>
+                            <span class="font-medium text-sm text-center">Salesforce Admin</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skill Item 2: Web Development -->
+                <div class="skill-item bg-brand-dark border-2 border-brand-primary/50 rounded-lg p-8 fade-in-element" style="animation-delay: 0.2s;">
+                    <h3 class="text-2xl font-bold mb-6 text-brand-primary text-center">Web Development</h3>
+                    <div class="skill-list grid grid-cols-3 gap-6">
+                        <!-- Skill Logo Item -->
+                        <div class="flex flex-col items-center gap-2 transition-transform hover:scale-110">
+                            <i class="devicon-html5-plain-wordmark text-5xl text-brand-primary"></i>
+                            <span class="font-medium text-sm text-center">HTML</span>
+                        </div>
+                        <!-- Skill Logo Item -->
+                        <div class="flex flex-col items-center gap-2 transition-transform hover:scale-110">
+                            <i class="devicon-css3-plain-wordmark text-5xl text-brand-primary"></i>
+                            <span class="font-medium text-sm text-center">CSS</span>
+                        </div>
+                        <!-- Skill Logo Item -->
+                        <div class="flex flex-col items-center gap-2 transition-transform hover:scale-110">
+                            <i class="devicon-javascript-plain text-5xl text-brand-primary rounded"></i>
+                            <span class="font-medium text-sm text-center">JavaScript</span>
+                        </div>
+                        <!-- Skill Logo Item -->
+                        <div class="flex flex-col items-center gap-2 transition-transform hover:scale-110">
+                            <i class="devicon-tailwindcss-plain text-5xl text-brand-primary"></i>
+                            <span class="font-medium text-sm text-center">Tailwind CSS</span>
+                        </div>
+                        <!-- Skill Logo Item -->
+                        <div class="flex flex-col items-center gap-2 transition-transform hover:scale-110">
+                            <i class="devicon-bootstrap-plain-wordmark text-5xl text-brand-primary"></i>
+                            <span class="font-medium text-sm text-center">Bootstrap</span>
+                        </div>
+                        <!-- Skill Logo Item -->
+                        <div class="flex flex-col items-center gap-2 transition-transform hover:scale-110">
+                            <i class="devicon-wordpress-plain text-5xl text-brand-primary"></i>
+                            <span class="font-medium text-sm text-center">WordPress</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Skill Item 3: Backend / Programming -->
+                <div class="skill-item bg-brand-dark border-2 border-brand-primary/50 rounded-lg p-8 fade-in-element" style="animation-delay: 0.4s;">
+                    <h3 class="text-2xl font-bold mb-6 text-brand-primary text-center">Backend & Programming</h3>
+                    <div class="skill-list grid grid-cols-3 gap-6">
+                        <!-- Skill Logo Item -->
+                        <div class="flex flex-col items-center gap-2 transition-transform hover:scale-110">
+                            <i class="devicon-java-plain-wordmark text-5xl text-brand-primary"></i>
+                            <span class="font-medium text-sm text-center">Java</span>
+                        </div>
+                        <!-- Skill Logo Item -->
+                        <div class="flex flex-col items-center gap-2 transition-transform hover:scale-110">
+                            <i class="devicon-python-plain-wordmark text-5xl text-brand-primary"></i>
+                            <span class="font-medium text-sm text-center">Python</span>
+                        </div>
+                        <!-- Skill Logo Item -->
+                        <div class="flex flex-col items-center gap-2 transition-transform hover:scale-110">
+                            <i class="devicon-django-plain-wordmark text-5xl text-brand-primary"></i>
+                            <span class="font-medium text-sm text-center">Django</span>
+                        </div>
+                        <!-- Skill Logo Item -->
+                        <div class="flex flex-col items-center gap-2 transition-transform hover:scale-110">
+                            <i class='bx bx-server text-5xl text-brand-primary'></i>
+                            <span class="font-medium text-sm text-center">REST APIs</span>
+                        </div>
+                        <!-- Skill Logo Item -->
+                        <div class="flex flex-col items-center gap-2 transition-transform hover:scale-110">
+                            <i class='bx bx-bot text-5xl text-brand-primary'></i>
+                            <span class="font-medium text-sm text-center">AI Workflows</span>
+                        </div>
+                        <!-- Skill Logo Item -->
+                        <div class="flex flex-col items-center gap-2 transition-transform hover:scale-110">
+                            <i class='bx bx-layer text-5xl text-brand-primary'></i>
+                            <span class="font-medium text-sm text-center">Full-Stack Flow</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skill Item 4: Databases -->
+                <div class="skill-item bg-brand-dark border-2 border-brand-primary/50 rounded-lg p-8 fade-in-element" style="animation-delay: 0.6s;">
+                    <h3 class="text-2xl font-bold mb-6 text-brand-primary text-center">Databases</h3>
+                    <div class="skill-list grid grid-cols-3 gap-6">
+                        <!-- Skill Logo Item -->
+                        <div class="flex flex-col items-center gap-2 transition-transform hover:scale-110">
+                            <i class="devicon-mysql-plain-wordmark text-5xl text-brand-primary"></i>
+                            <span class="font-medium text-sm text-center">MySQL</span>
+                        </div>
+                        <!-- Skill Logo Item -->
+                        <div class="flex flex-col items-center gap-2 transition-transform hover:scale-110">
+                            <i class="devicon-mongodb-plain-wordmark text-5xl text-brand-primary"></i>
+                            <span class="font-medium text-sm text-center">MongoDB</span>
+                        </div>
+                        <!-- Skill Logo Item -->
+                        <div class="flex flex-col items-center gap-2 transition-transform hover:scale-110">
+                            <i class="devicon-salesforce-plain text-5xl text-brand-primary"></i>
+                            <span class="font-medium text-sm text-center">Salesforce Data</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </section>
 
-    <section class="skills" id="skills">
-        <h2 class="heading">My <span>Skills</span></h2>
-        <div class="skills-content">
-            <div class="skill-item">
-                <h3>Frontend Development</h3>
-                <div class="skill-list">
-                    <span>HTML</span>
-                    <span>CSS</span>
-                    <span>JavaScript</span>
-                    <span>React</span>
+    <!-- 
+      Projects Section
+    -->
+    <section id="projects" class="flex flex-col justify-center p-5 md:px-10 scroll-mt-20">
+        <div class="container mx-auto">
+            <h2 class="heading text-4xl md:text-5xl font-bold text-center mb-16 fade-in-element">
+                My <span class="text-brand-primary">Projects</span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Project 1: Salesforce LWC App -->
+                <div class="project-box flex flex-col bg-brand-dark border-2 border-brand-primary/50 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-brand-primary/10 hover:scale-105 fade-in-element">
+                    <img src="https://placehold.co/600x400/1f242d/7cf03d?text=Salesforce+LWC+App" alt="Salesforce LWC Project" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-bold mb-3 text-brand-primary">Custom Case Management (LWC)</h3>
+                        <p class="text-brand-light mb-4 flex-grow">A Salesforce Lightning Web Component app to provide a custom UI for managing support cases, integrating with Apex controllers and SOQL queries for real-time data.</p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="tech-tag">Salesforce</span>
+                            <span class="tech-tag">LWC</span>
+                            <span class="tech-tag">Apex</span>
+                            <span class="tech-tag">SOQL</span>
+                        </div>
+                        <div class="mt-auto flex gap-4">
+                            <a href="#" class="btn-solid">Live Demo <i class='bx bx-link-external'></i></a>
+                            <a href="#" class="btn-outline">GitHub <i class='bx bxl-github'></i></a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="skill-item">
-                <h3>Backend Development</h3>
-                <div class="skill-list">
-                    <span>Java</span>
-                    <span>Spring Boot</span>
-                    <span>Node.js</span>
-                    <span>SQL</span>
+
+                <!-- Project 2: Django REST API -->
+                <div class="project-box flex flex-col bg-brand-dark border-2 border-brand-primary/50 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-brand-primary/10 hover:scale-105 fade-in-element" style="animation-delay: 0.2s;">
+                    <img src="https://placehold.co/600x400/1f242d/7cf03d?text=Django+REST+API" alt="Django API Project" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-bold mb-3 text-brand-primary">E-commerce Backend API</h3>
+                        <p class="text-brand-light mb-4 flex-grow">A complete REST API for an e-commerce platform, built with Python and Django Rest Framework. Features user authentication, product catalog, and order processing endpoints.</p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Django</span>
+                            <span class="tech-tag">REST API</span>
+                            <span class="tech-tag">MySQL</span>
+                        </div>
+                        <div class="mt-auto flex gap-4">
+                            <a href="#" class="btn-solid">Live Demo <i class='bx bx-link-external'></i></a>
+                            <a href="#" class="btn-outline">GitHub <i class='bx bxl-github'></i></a>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Project 3: Full-Stack Task Manager -->
+                <div class="project-box flex flex-col bg-brand-dark border-2 border-brand-primary/50 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-brand-primary/10 hover:scale-105 fade-in-element" style="animation-delay: 0.4s;">
+                    <img src="https://placehold.co/600x400/1f242d/7cf03d?text=Task+Manager+App" alt="Task Manager Project" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-bold mb-3 text-brand-primary">Full-Stack Task Manager</h3>
+                        <p class="text-brand-light mb-4 flex-grow">A responsive Trello-like task management board. The frontend is built with JavaScript & Tailwind, and it communicates with a Django backend via REST APIs.</p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">Tailwind</span>
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">MongoDB</span>
+                        </div>
+                        <div class="mt-auto flex gap-4">
+                            <a href="#" class="btn-solid">Live Demo <i class='bx bx-link-external'></i></a>
+                            <a href="#" class="btn-outline">GitHub <i class='bx bxl-github'></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4: Salesforce Automation -->
+                <div class="project-box flex flex-col bg-brand-dark border-2 border-brand-primary/50 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-brand-primary/10 hover:scale-105 fade-in-element" style="animation-delay: 0.6s;">
+                    <img src="https://placehold.co/600x400/1f242d/7cf03d?text=Salesforce+Automation" alt="Salesforce Automation Project" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-bold mb-3 text-brand-primary">Lead Conversion Automation</h3>
+                        <p class="text-brand-light mb-4 flex-grow">Developed a Salesforce automation solution using Apex triggers and Flows to automatically assign and convert leads based on custom criteria, reducing manual data entry by 90%.</p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="tech-tag">Salesforce</span>
+                            <span class="tech-tag">Apex Triggers</span>
+                            <span class="tech-tag">Flows</span>
+                            <span class="tech-tag">Admin</span>
+                        </div>
+                        <div class="mt-auto flex gap-4">
+                            <a href="#" class="btn-solid">Live Demo <i class='bx bx-link-external'></i></a>
+                            <a href="#" class="btn-outline">GitHub <i class='bx bxl-github'></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5: Koshank Landing Pages (from internship) -->
+                <div class="project-box flex flex-col bg-brand-dark border-2 border-brand-primary/50 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-brand-primary/10 hover:scale-105 fade-in-element" style="animation-delay: 0.8s;">
+                    <img src="https://placehold.co/600x400/1f242d/7cf03d?text=Koshank+Landing+Pages" alt="Koshank Landing Pages Project" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-bold mb-3 text-brand-primary">Company Landing Pages</h3>
+                        <p class="text-brand-light mb-4 flex-grow">As an intern at Koshank, developed and deployed several responsive landing pages for marketing campaigns using HTML, CSS, JavaScript, and WordPress.</p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="tech-tag">HTML</span>
+                            <span class="tech-tag">CSS</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">WordPress</span>
+                        </div>
+                        <div class="mt-auto flex gap-4">
+                            <a href="#" class="btn-solid">Live Demo <i class='bx bx-link-external'></i></a>
+                            <a href="#" class="btn-outline">GitHub <i class='bx bxl-github'></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 6: Responsive Portfolio -->
+                <div class="project-box flex flex-col bg-brand-dark border-2 border-brand-primary/50 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-brand-primary/10 hover:scale-105 fade-in-element" style="animation-delay: 1.0s;">
+                    <img src="https://placehold.co/600x400/1f242d/7cf03d?text=This+Portfolio" alt="Portfolio Project" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-bold mb-3 text-brand-primary">Modern Developer Portfolio</h3>
+                        <p class="text-brand-light mb-4 flex-grow">The very website you are looking at. A fully responsive, single-page application built from scratch using modern web technologies to showcase my skills and projects.</p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="tech-tag">HTML</span>
+                            <span class="tech-tag">Tailwind CSS</span>
+                            <span class="tech-tag">JavaScript</span>
+                        </div>
+                        <div class="mt-auto flex gap-4">
+                            <!-- <a href="#" class="btn-solid">Live Demo <i class='bx bx-link-external'></i></a> -->
+                            <a href="#" class="btn-outline">GitHub <i class='bx bxl-github'></i></a>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+        </div>
+    </section>
+    
+    <!-- 
+      Contact Section - NEW FORM
+    -->
+    <section id="contact" class="min-h-screen flex flex-col justify-center p-5 md:px-10 scroll-mt-20">
+        <div class="container mx-auto max-w-4xl text-center">
+            <h2 class="heading text-4xl md:text-5xl font-bold mb-10 fade-in-element">
+                Get In <span class="text-brand-primary">Touch</span>
+            </h2>
+            
+            <p class="text-xl text-brand-light mb-12 fade-in-element" style="animation-delay: 0.2s;">
+                Have a project in mind or just want to say hi? My inbox is always open.
+            </p>
+
+            <!-- Contact Form -->
+            <form action="https://api.formspree.io/f/YOUR_UNIQUE_ID" method="POST" class="max-w-xl mx-auto text-left space-y-6 fade-in-element" style="animation-delay: 0.4s;">
+                
+                <!-- Name -->
+                <div>
+                    <label for="name" class="block mb-2 text-sm font-medium text-brand-light">Full Name</label>
+                    <input type="text" id="name" name="name" class="block w-full p-3 bg-brand-dark/50 border-2 border-brand-primary/50 rounded-lg text-white focus:ring-brand-primary focus:border-brand-primary transition-all" placeholder="John Doe" required>
+                </div>
+                
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block mb-2 text-sm font-medium text-brand-light">Your Email</label>
+                    <input type="email" id="email" name="email" class="block w-full p-3 bg-brand-dark/50 border-2 border-brand-primary/50 rounded-lg text-white focus:ring-brand-primary focus:border-brand-primary transition-all" placeholder="you@example.com" required>
+                </div>
+
+                <!-- Message -->
+                <div>
+                    <label for="message" class="block mb-2 text-sm font-medium text-brand-light">Message</label>
+                    <textarea id="message" name="message" rows="5" class="block w-full p-3 bg-brand-dark/50 border-2 border-brand-primary/50 rounded-lg text-white focus:ring-brand-primary focus:border-brand-primary transition-all" placeholder="Your message..." required></textarea>
+                </div>
+                
+                <!-- Submit Button -->
+                <div class="text-center">
+                    <button type="submit" class="btn px-8 py-3 bg-brand-primary text-brand-dark font-bold rounded-full text-lg transition-all duration-300 hover:bg-brand-secondary hover:shadow-lg hover:shadow-brand-primary/30">
+                        Send Message
+                    </button>
+                </div>
+            </form>
+            
+            <p class="text-brand-light text-sm mt-6 fade-in-element" style="animation-delay: 0.6s;">
+                <i class='bx bx-info-circle' ></i> To activate this form, sign up for a free <a href="https://formspree.io/" target="_blank" class="text-brand-primary font-medium hover:underline">Formspree</a> account and replace the `action` URL in the code.
+            </p>
+
         </div>
     </section>
 
-    <section class="projects" id="projects">
-        <h2 class="heading">My <span>Projects</span></h2>
-        <div class="project-container">
-            <div class="project-box">
-                <h3>Project 1</h3>
-                <p>Description of project 1</p>
-                <a href="#" class="btn">View Project</a>
-            </div>
-            <div class="project-box">
-                <h3>Project 2</h3>
-                <p>Description of project 2</p>
-                <a href="#" class="btn">View Project</a>
-            </div>
-            <div class="project-box">
-                <h3>Project 3</h3>
-                <p>Description of project 3</p>
-                <a href="#" class="btn">View Project</a>
-            </div>
-        </div>
-    </section>
+    <!-- 
+      Footer 
+      - Added GitHub Stats Mockup
+    -->
+    <footer class="py-12 px-5 text-center border-t border-brand-primary/20">
 
-    <section class="contact" id="contact">
-        <h2 class="heading">Contact <span>Me</span></h2>
-        <div class="contact-content">
-            <div class="contact-info">
-                <div class="contact-item">
-                    <i class='bx bx-envelope'></i>
-                    <h3>Email</h3>
-                    <p>your.email@example.com</p>
+        <!-- GitHub Stats Mockup -->
+        <div class="github-stats-mockup container mx-auto text-center mb-12 p-8 bg-brand-dark border-2 border-brand-primary/30 rounded-lg max-w-4xl fade-in-element">
+            <h3 class="text-3xl font-bold mb-4 text-brand-primary">GitHub Activity</h3>
+            <p class="text-brand-light mb-8">This is a mockup of live stats, which can be wired to the GitHub API to show your real-time activity.</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Stat Card 1 -->
+                <div class="p-4 bg-brand-dark/50 rounded-lg border border-brand-primary/20">
+                    <span class="text-4xl font-bold text-brand-primary">42</span>
+                    <p class="text-brand-light mt-1">Public Repos</p>
                 </div>
-                <div class="contact-item">
-                    <i class='bx bx-phone'></i>
-                    <h3>Phone</h3>
-                    <p>+1234567890</p>
+                <!-- Stat Card 2 -->
+                <div class="p-4 bg-brand-dark/50 rounded-lg border border-brand-primary/20">
+                    <span class="text-4xl font-bold text-brand-primary">120+</span>
+                    <p class="text-brand-light mt-1">Commits (90 Days)</p>
+                </div>
+                <!-- Stat Card 3 -->
+                <div class="p-4 bg-brand-dark/50 rounded-lg border border-brand-primary/20">
+                    <span class="text-4xl font-bold text-brand-primary">18</span>
+                    <p class="text-brand-light mt-1">Followers</p>
+                </div>
+                <!-- Stat Card 4 -->
+                <div class="p-4 bg-brand-dark/50 rounded-lg border border-brand-primary/20">
+                    <span class="text-4xl font-bold text-brand-primary">5</span>
+                    <p class="text-brand-light mt-1">Active Projects</p>
                 </div>
             </div>
         </div>
-    </section>
+
+        <p class="text-brand-light">
+            &copy; 2024 Piyush Tamboli. All rights reserved.
+        </p>
+    </footer>
+
+    <!-- 
+      JavaScript for interactivity 
+    -->
+    <!-- <script src="/script.js">
+    </script> -->
 
     <script>
-        // Mobile menu toggle
-        const menuIcon = document.querySelector('.menu-icon');
-        const navLinks = document.querySelector('.nav-links');
-        
-        menuIcon.addEventListener('click', () => {
-            menuIcon.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
+                document.addEventListener('DOMContentLoaded', function() {
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = menuBtn.querySelector('i');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+            const navbar = document.getElementById('navbar');
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('a.nav-link');
+            const textSpans = document.querySelectorAll('.home-info h2 span');
+            let currentTextIndex = 0;
+            const revealElements = document.querySelectorAll('.fade-in-element');
 
-        // Close menu when clicking a link
-        document.querySelectorAll('.nav-links li a').forEach(link => {
-            link.addEventListener('click', () => {
-                menuIcon.classList.remove('active');
-                navLinks.classList.remove('active');
-            });
-        });
-
-        // Navbar scroll effect
-        window.addEventListener('scroll', function() {
-            const navbar = document.querySelector('.nav-bar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('sticky');
-            } else {
-                navbar.classList.remove('sticky');
+            // --- Mobile Menu Toggle ---
+            function toggleMenu() {
+                mobileMenu.classList.toggle('menu-open'); // Toggle 'menu-open' for slide
+                document.body.classList.toggle('overflow-hidden'); // Prevent scrolling when menu is open
+                // Toggle icon
+                if (mobileMenu.classList.contains('menu-open')) {
+                    menuIcon.classList.remove('bx-menu');
+                    menuIcon.classList.add('bx-x');
+                } else {
+                    menuIcon.classList.remove('bx-x');
+                    menuIcon.classList.add('bx-menu');
+                }
             }
-        });
 
-        // Active section highlighting
-        const sections = document.querySelectorAll('section');
-        const navMenuLinks = document.querySelectorAll('.nav-bar ul li a');
+            menuBtn.addEventListener('click', toggleMenu);
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', toggleMenu);
+            });
 
-        window.addEventListener('scroll', () => {
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (scrollY >= (sectionTop - sectionHeight / 3)) {
-                    current = section.getAttribute('id');
+            // --- Sticky Header ---
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('bg-brand-dark/90', 'backdrop-blur-sm', 'shadow-lg');
+                } else {
+                    navbar.classList.remove('bg-brand-dark/90', 'backdrop-blur-sm', 'shadow-lg');
                 }
             });
+            
+            // --- Active Nav Link Highlighting ---
+            function updateActiveLink() {
+                let currentSection = 'home'; // Default to home
 
-            navLinks.forEach(link => {
-                link.parentElement.classList.remove('active');
-                if (link.getAttribute('href').slice(1) === current) {
-                    link.parentElement.classList.add('active');
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    // Trigger 150px before the top of the section
+                    if (window.scrollY >= sectionTop - 150) { 
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+
+                // Update desktop links
+                navLinks.forEach(link => {
+                    link.classList.remove('text-brand-primary', 'font-bold');
+                    if (link.dataset.section === currentSection) {
+                        link.classList.add('text-brand-primary', 'font-bold');
+                    }
+                });
+
+                // Update mobile links (they are different elements)
+                mobileLinks.forEach(link => {
+                    link.classList.remove('text-brand-primary');
+                    if (link.dataset.section === currentSection) {
+                        link.classList.add('text-brand-primary');
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', updateActiveLink);
+            updateActiveLink(); // Run on load
+
+            // --- Typing Animation ---
+            function updateActiveText() {
+                // Update text spans
+                textSpans.forEach((span, index) => {
+                    span.classList.toggle('active', index === currentTextIndex);
+                });
+                currentTextIndex = (currentTextIndex + 1) % textSpans.length;
+
+                // Update the h2 element's min-height based on the tallest span
+                // This prevents the layout from shifting
+                let maxHeight = 0;
+                textSpans.forEach(span => {
+                    span.classList.add('active'); // Temporarily activate to measure
+                    maxHeight = Math.max(maxHeight, span.offsetHeight);
+                    span.classList.remove('active'); // Deactivate
+                });
+                
+                // Re-apply the correct active class
+                if(textSpans[currentTextIndex]) {
+                    textSpans[currentTextIndex].classList.add('active');
+                    const h2 = document.querySelector('.home-info h2');
+                    if(h2) h2.style.height = `${maxHeight}px`;
                 }
+            }
+
+
+            if (textSpans.length > 0) {
+                // Run once on load to set the height
+                updateActiveText();
+                // Then set the interval
+                setInterval(updateActiveText, 4000); // Cycle every 4 seconds
+            }
+
+            // --- Scroll Reveal Animations (Intersection Observer) ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Use a short delay based on the animation-delay style, if present
+                        const delay = parseInt(entry.target.style.animationDelay) || 0;
+                        setTimeout(() => {
+                            entry.target.classList.add('is-visible');
+                        }, delay);
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, {
+                root: null, // relative to viewport
+                threshold: 0.1 // 10% of the item must be visible
             });
+
+            revealElements.forEach(el => {
+                observer.observe(el);
+            });
+
+            // --- Project Link Button Styles (Applied via JS for convenience) ---
+            const btnSolidClasses = [
+                'inline-flex', 'items-center', 'gap-2', 'px-4', 'py-2', 'bg-brand-primary', 'text-brand-dark', 
+                'font-medium', 'rounded-full', 'transition-all', 'duration-300', 
+                'hover:bg-brand-secondary', 'hover:shadow-lg', 'hover:shadow-brand-primary/30'
+            ];
+            
+            const btnOutlineClasses = [
+                'inline-flex', 'items-center', 'gap-2', 'px-4', 'py-2', 'border-2', 'border-brand-primary', 
+                'text-brand-primary', 'font-medium', 'rounded-full', 'transition-all', 'duration-300', 
+                'hover:bg-brand-primary', 'hover:text-brand-dark'
+            ];
+
+            document.querySelectorAll('.btn-solid').forEach(btn => btn.classList.add(...btnSolidClasses));
+            document.querySelectorAll('.btn-outline').forEach(btn => btn.classList.add(...btnOutlineClasses));
+
+            // --- Tech Tag Styles ---
+            const techTagClasses = [
+                'inline-block', 'bg-brand-dark/50', 'border', 'border-brand-primary/50', 'text-brand-primary', 
+                'text-xs', 'font-medium', 'px-3', 'py-1', 'rounded-full'
+            ];
+            document.querySelectorAll('.tech-tag').forEach(tag => tag.classList.add(...techTagClasses));
+
+
         });
 
-        // Typing animation for subtitle
-        let currentTextIndex = 0;
-        const textSpans = document.querySelectorAll('.home-info h2 span');
-        
-        function updateActiveText() {
-            textSpans.forEach((span, index) => {
-                span.classList.toggle('active', index === currentTextIndex);
-            });
-            currentTextIndex = (currentTextIndex + 1) % textSpans.length;
-        }
-
-        // initialize and start cycling
-        updateActiveText();
-        setInterval(updateActiveText, 4000);
-
-        // Add download resume functionality
-        document.querySelector('.btn-sci .btn').addEventListener('click', function(e) {
-            e.preventDefault();
-            // Replace 'your-resume.pdf' with your actual resume file name
-            window.open('your-resume.pdf', '_blank');
-        });
-
-        // Reveal animations on scroll
-        function reveal() {
-            const reveals = document.querySelectorAll('.skill-item, .project-box, .contact-item');
-            reveals.forEach(element => {
-                const windowHeight = window.innerHeight;
-                const elementTop = element.getBoundingClientRect().top;
-                const elementVisible = 150;
-                if (elementTop < windowHeight - elementVisible) {
-                    element.classList.add('active');
-                }
-            });
-        }
-
-        window.addEventListener('scroll', reveal);
     </script>
 </body>
-
 </html>
+
