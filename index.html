@@ -458,8 +458,12 @@
                         </div>
                         <!-- Skill Logo Item -->
                         <div class="flex flex-col items-center gap-2 transition-transform hover:scale-110">
-                            <i class='devicon-supabase-plain text-5xl text-brand-primary'></i>
-                            <span class="font-medium text-sm text-center">Supabase</span>
+                        <svg class="text-5xl text-brand-primary" style="width: 2.5rem; height: 2.5rem;" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M4 14h8v7l8 -11h-8v-7z" />
+                        </svg>
+                        <span class="font-medium text-sm text-center">Supabase</span>
                         </div>
                         <!-- Skill Logo Item -->
                         <div class="flex flex-col items-center gap-2 transition-transform hover:scale-110">
@@ -546,7 +550,7 @@
 
                 <!-- Project 3: Full-Stack Task Manager -->
 
-                <div class="project-box flex flex-col bg-brand-dark border-2 border-brand-primary/50 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-brand-primary/10 hover:scale-105 fade-in-element" style="animation-delay: 0.6s;">
+                <!-- <div class="project-box flex flex-col bg-brand-dark border-2 border-brand-primary/50 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-brand-primary/10 hover:scale-105 fade-in-element" style="animation-delay: 0.6s;">
                     <img src="https://api.apiflash.com/v1/urltoimage?access_key=123abedbdd0641a4bdaf628458f1a098&wait_until=page_loaded&url=https://360-tech-mentor.vercel.app/" alt="Task Manager Project Preview" class="w-full h-48 object-cover">
                     <div class="p-6 flex flex-col flex-grow">
                         <h3 class="text-2xl font-bold mb-3 text-brand-primary">360 Consulting Website</h3>
@@ -562,7 +566,7 @@
                             <a href="#" class="btn-outline">GitHub <i class='bx bxl-github'></i></a>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- Project 4: Salesforce Automation -->
                 <div class="project-box flex flex-col bg-brand-dark border-2 border-brand-primary/50 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-brand-primary/10 hover:scale-105 fade-in-element" style="animation-delay: 0.4s;">
@@ -646,13 +650,13 @@
                 <!-- Name -->
                 <div>
                     <label for="name" class="block mb-2 text-sm font-medium text-brand-light">Full Name</label>
-                    <input type="text" id="name" name="name" class="block w-full p-3 bg-brand-dark/50 border-2 border-brand-primary/50 rounded-lg text-white focus:ring-brand-primary focus:border-brand-primary transition-all" placeholder="John Doe" required>
+                    <input type="text" id="name" name="name" class="block w-full p-3 bg-brand-dark/50 border-2 border-brand-primary/50 rounded-lg text-white focus:ring-brand-primary focus:border-brand-primary transition-all" placeholder="Name" required>
                 </div>
                 
                 <!-- Email -->
                 <div>
                     <label for="email" class="block mb-2 text-sm font-medium text-brand-light">Your Email</label>
-                    <input type="email" id="email" name="email" class="block w-full p-3 bg-brand-dark/50 border-2 border-brand-primary/50 rounded-lg text-white focus:ring-brand-primary focus:border-brand-primary transition-all" placeholder="you@example.com" required>
+                    <input type="email" id="email" name="email" class="block w-full p-3 bg-brand-dark/50 border-2 border-brand-primary/50 rounded-lg text-white focus:ring-brand-primary focus:border-brand-primary transition-all" placeholder="Email" required>
                 </div>
 
                 <!-- Message -->
@@ -668,11 +672,6 @@
                     </button>
                 </div>
             </form>
-            
-            <!-- <p class="text-brand-light text-sm mt-6 fade-in-element" style="animation-delay: 0.6s;">
-                <i class='bx bx-info-circle' ></i> To activate this form, sign up for a free <a href="https://formspree.io/" target="_blank" class="text-brand-primary font-medium hover:underline">Formspree</a> account and replace the `action` URL in the code.
-            </p> -->
-
         </div>
     </section>
 
@@ -689,12 +688,12 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
                 <!-- Stat Card 1 -->
                 <div class="p-4 bg-brand-dark/50 rounded-lg border border-brand-primary/20 transition-all duration-300 hover:scale-105 hover:bg-brand-dark/70 hover:border-brand-primary/60 active:scale-95">
-                    <span class="text-4xl font-bold text-brand-primary">42</span>
+                    <span class="text-4xl font-bold text-brand-primary">8</span>
                     <p class="text-brand-light mt-1">Public Repos</p>
                 </div>
                 <!-- Stat Card 2 -->
                 <div class="p-4 bg-brand-dark/50 rounded-lg border border-brand-primary/20 transition-all duration-300 hover:scale-105 hover:bg-brand-dark/70 hover:border-brand-primary/60 active:scale-95">
-                    <span class="text-4xl font-bold text-brand-primary">120+</span>
+                    <span class="text-4xl font-bold text-brand-primary">50+</span>
                     <p class="text-brand-light mt-1">Commits (90 Days)</p>
                 </div>
                 <!-- Stat Card 3 -->
@@ -714,12 +713,6 @@
             &copy; 2024 Piyush Tamboli. All rights reserved.
         </p>
     </footer>
-
-    <!-- 
-      JavaScript for interactivity 
-    -->
-    <!-- <script src="/script.js">
-    </script> -->
 
     <script>
                 document.addEventListener('DOMContentLoaded', function() {
